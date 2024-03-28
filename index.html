@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mobile Art Gallery Exhibition</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: "Helvetica Neue LT Std", sans-serif;
+      }
+
+      .exhibition-container {
+        display: flex;
+        flex-direction: row-reverse; /* Ensure exhibition-list is on the right */
+        align-items: flex-start;
+        gap: 10px; /* Adjust gap as needed for visual consistency */
+        padding: 10px;
+      }
+      .exhibition-details-wrapper {
+        position: relative; /* Make this a positioning context for absolutely positioned children */
+      }
+
+      .exhibition-details-container {
+        width: 100%; /* Ensure the container takes full width */
+        position: absolute; /* Position exhibitions absolutely within their wrapper */
+        top: 0; /* Align all exhibitions to the top of their wrapper */
+        left: 0; /* Align all exhibitions to the left of their wrapper */
+        opacity: 0; /* Initially hide all exhibitions */
+        transition: opacity 0.5s linear; /* Smooth transition for opacity */
+        pointer-events: none; /* Prevent clicking on inactive exhibitions */
+      }
+
+      .exhibition-details-container.active {
+        position: relative; /* Make the active exhibition part of the document flow */
+        opacity: 1; /* Only show the active exhibition */
+        pointer-events: all; /* Allow clicking on the active exhibition */
+      }
+
+      .exhibition-list {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end; /* Align list items to the right */
+        font-size: 12px; /* Smaller font size as per original styling */
+      }
+
+      .exhibition-number,
+      .exhibition-info {
+        font-weight: 750;
+        color: #000;
+      }
+
+      .exhibition-title {
+        font-size: 31px;
+        font-weight: 700;
+        margin-top: 12px;
+      }
+
+      .exhibition-image,
+      .exhibition-image-placeholder {
+        width: 100%; /* Ensure full width within the container */
+        aspect-ratio: 1.52; /* Maintain the aspect ratio */
+        margin-top: 8px;
+      }
+
+      .exhibition-list-item {
+        margin-top: 6px;
+        cursor: pointer; /* Make it clear items are clickable */
+      }
+
+      .exhibition-list-item.active {
+        color: #000; /* Active item style */
+      }
+    </style>
+  </head>
+  <body>
+    <div class="exhibition-container">
+      <div class="exhibition-list">
+        <!-- Exhibition List Items will be populated by JavaScript -->
+      </div>
+      <div class="exhibition-details-wrapper">
+        <!-- Exhibition Details will be populated by JavaScript -->
+      </div>
+    </div>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const exhibitionList = document.querySelector(".exhibition-list");
+        const exhibitionDetailsWrapper = document.querySelector(
+          ".exhibition-details-wrapper"
+        );
+
+        function createExhibitionDetails(i) {
+          const detailDiv = document.createElement("div");
+          detailDiv.className = "exhibition-details-container";
+          detailDiv.id = `exhibition-${i.toString().padStart(3, "0")}`;
+
+          const numberDiv = document.createElement("div");
+          numberDiv.className = "exhibition-number";
+          numberDiv.textContent = `Exposición ${i.toString().padStart(3, "0")}`;
+          detailDiv.appendChild(numberDiv);
+
+          const titleH2 = document.createElement("h2");
+          titleH2.className = "exhibition-title";
+          titleH2.textContent = `Exhibition Title ${i}`;
+          detailDiv.appendChild(titleH2);
+
+          const imageDiv = document.createElement("div");
+          if (i === 27) {
+            const img = document.createElement("img");
+            img.src =
+              "https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb";
+            img.alt = "Exhibition Image";
+            img.className = "exhibition-image";
+            imageDiv.appendChild(img);
+          } else {
+            imageDiv.className = "exhibition-image-placeholder";
+            imageDiv.style.backgroundColor = `#${Math.floor(
+              Math.random() * 16777215
+            ).toString(16)}`;
+          }
+          detailDiv.appendChild(imageDiv);
+
+          const infoDiv = document.createElement("div");
+          infoDiv.className = "exhibition-info";
+          infoDiv.innerHTML = `Artist Name ${i}<br>${new Date().toLocaleDateString()} - ${new Date().toLocaleDateString()}`;
+          detailDiv.appendChild(infoDiv);
+
+          exhibitionDetailsWrapper.appendChild(detailDiv);
+        }
+
+        function createListItem(i) {
+          const listItem = document.createElement("div");
+          listItem.textContent = i.toString().padStart(3, "0");
+          listItem.className = "exhibition-list-item";
+          listItem.addEventListener("click", function () {
+            document
+              .querySelectorAll(".exhibition-details-container")
+              .forEach((container) => {
+                container.classList.remove("active"); // Remove active from all containers
+              });
+            const activeContainer = document.querySelector(
+              `#exhibition-${i.toString().padStart(3, "0")}`
+            );
+            activeContainer.classList.add("active"); // Add active only to the clicked container
+          });
+          exhibitionList.appendChild(listItem);
+        }
+
+        for (let i = 27; i >= 1; i--) {
+          createExhibitionDetails(i);
+          createListItem(i);
+        }
+
+        // Activate the first exhibition by default
+        document
+          .querySelector(".exhibition-details-container")
+          .classList.add("active");
+      });
+    </script>
+  </body>
+</html>

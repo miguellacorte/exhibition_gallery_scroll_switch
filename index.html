@@ -1,390 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
     <title>Art Gallery Exhibition</title>
     <style>
-      body {
-        margin: 0;
-        padding: 0;
-        font-family: "Helvetica Neue LT Std", sans-serif;
-      }
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Helvetica Neue LT Std", sans-serif;
+        }
 
-      .exhibition-container {
-        display: flex;
-        flex-direction: row-reverse; /* Exhibition list on the right */
-        gap: 10px; /* Space between list and details */
-        padding: 10px;
-      }
+        .exhibition-container {
+            display: flex;
+            flex-direction: row-reverse; /* Exhibition list on the right */
+            align-items: flex-start;
+            gap: 20px; /* Adjusted space between list and details */
+            padding: 10px;
+            height: 100vh; /* Full height */
+            overflow: hidden; /* Prevent scrolling on body */
+        }
 
-      .exhibition-details-container {
-        display: none; /* Initially hide all exhibitions */
-        width: 100%;
-      }
+        .swiper {
+            width: auto;
+            height: 100%;
+        }
 
-      .exhibition-details-container.active {
-        display: block; /* Show active exhibition */
-      }
-
-      .exhibition-list {
+        .exhibition-list {
         display: flex;
         flex-direction: column;
         align-items: flex-end; /* List items aligned to the right */
         font-size: 12px;
       }
 
-      .exhibition-number,
-      .exhibition-info {
-        font-weight: 750;
-        color: #000;
-      }
+        .swiper-wrapper {
+            display: flex;
+            flex-direction: column;
+            
+        }
 
-      .exhibition-title {
-        font-size: 31px;
-        font-weight: 700;
-        margin-top: 12px;
-        margin-block-end: 0.1em;
-      }
+        .swiper-slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            height: auto;
+            min-height: 50px; /* Adjust based on your design */
+        }
 
-      .exhibition-image-placeholder {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 1.52;
-        margin-top: 8px;
-      }
+        .exhibition-details-wrapper {
+            flex-grow: 1; /* Take remaining space */
+            overflow-y: auto; 
+            width: calc(100% - 220px);/* Scroll inside wrapper if needed */
+        }
 
-      .exhibition-list-item {
-        margin-top: 6px;
-        cursor: pointer;
-      }
+        .exhibition-details-container {
+            display: none; /* Initially hide all exhibitions */
+        }
 
-      .exhibition-list-item.active {
-        color: #000;
-      }
+        .exhibition-details-container.active {
+            display: block; /* Show active exhibition */
+        }
 
-      .exhibition-image,
-      .exhibition-image-placeholder {
-        width: 100%; /* Ensure full width within the container */
-        aspect-ratio: 1.52; /* Maintain the aspect ratio */
-        margin-top: 8px;
-      }
+        .exhibition-image, .exhibition-image-placeholder {
+            width: 100%;
+            aspect-ratio: 1.52;
+            margin-top: 8px;
+        }
+
+        .exhibition-title {
+            font-size: 31px;
+            font-weight: 700;
+            margin-top: 12px;
+            margin-block-end: 0.1em; /* Reduced margin */
+        }
+
+        .exhibition-number, .exhibition-info {
+            font-weight: 750;
+            color: #000;
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <div class="exhibition-container">
-      <div class="exhibition-list">
-        <!-- Dynamic JavaScript Population of List Items -->
-      </div>
-
-      <div class="exhibition-details-container" id="exhibition-021">
-        <div class="exhibition-details">
-            <div class="exhibition-number">Exposición 021</div>
-            <h2 class="exhibition-title">Reflejos de la Naturaleza</h2>
-            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb" alt="Exhibition Image" class="exhibition-image" />
-            <div class="exhibition-info">Miguel Ángel López<br>01.10.2022 - 30.11.2022</div>
-        </div>
-    </div>
-    
-    <div class="exhibition-details-container" id="exhibition-020">
-        <div class="exhibition-details">
-            <div class="exhibition-number">Exposición 020</div>
-            <h2 class="exhibition-title">El Silencio de las Formas</h2>
-            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb" alt="Exhibition Image" class="exhibition-image" />
-            <div class="exhibition-info">Ana Morales<br>01.12.2022 - 31.01.2023</div>
-        </div>
-    </div>
-    
-    <div class="exhibition-details-container" id="exhibition-019">
-        <div class="exhibition-details">
-            <div class="exhibition-number">Exposición 019</div>
-            <h2 class="exhibition-title">Dialogos Cromáticos</h2>
-            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb" alt="Exhibition Image" class="exhibition-image" />
-            <div class="exhibition-info">Carlos Jiménez<br>01.02.2023 - 31.03.2023</div>
-        </div>
-    </div>
-    
-    <div class="exhibition-details-container" id="exhibition-018">
-        <div class="exhibition-details">
-            <div class="exhibition-number">Exposición 018</div>
-            <h2 class="exhibition-title">Caminos Entrelazados</h2>
-            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb" alt="Exhibition Image" class="exhibition-image" />
-            <div class="exhibition-info">Sofía Martínez<br>01.04.2023 - 31.05.2023</div>
-        </div>
-    </div>
-    
-    <div class="exhibition-details-container" id="exhibition-017">
-        <div class="exhibition-details">
-            <div class="exhibition-number">Exposición 017</div>
-            <h2 class="exhibition-title">Horizontes Suspendidos</h2>
-            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb" alt="Exhibition Image" class="exhibition-image" />
-            <div class="exhibition-info">Adrián Gómez<br>01.06.2023 - 31.07.2023</div>
-        </div>
-    </div>
-    
-    <div class="exhibition-details-container" id="exhibition-016">
-        <div class="exhibition-details">
-            <div class="exhibition-number">Exposición 016</div>
-            <h2 class="exhibition-title">Retratos de la Memoria</h2>
-            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb" alt="Exhibition Image" class="exhibition-image" />
-            <div class="exhibition-info">Lucía Fernández<br>01.08.2023 - 30.09.2023</div>
-        </div>
-    </div>
-    
-    <div class="exhibition-details-container" id="exhibition-015">
-        <div class="exhibition-details">
-            <div class="exhibition-number">Exposición 015</div>
-            <h2 class="exhibition-title">Espejismos Digitales</h2>
-            <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb" alt="Exhibition Image" class="exhibition-image" />
-            <div class="exhibition-info">Mario Pineda<br>01.10.2023 - 30.11.2023</div>
-        </div>
-    </div>
-
-      <div class="exhibition-details-wrapper">
-        <div class="exhibition-details-container" id="exhibition-014">
-          <div class="exhibition-details">
-            <div class="exhibition-number">Exposición 014</div>
-            <h2 class="exhibition-title">Reflexiones Modernas</h2>
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb"
-              alt="Exhibition Image"
-              class="exhibition-image"
-            />
-            <div class="exhibition-info">
-              Alejandro Ruiz<br />01.02.2024 - 30.04.2024
+        <div class="swiper exhibition-list">
+            <div class="swiper-wrapper">
+                <!-- Swiper slides will be dynamically populated by JavaScript -->
             </div>
-          </div>
+            <!-- <div class="swiper-pagination"></div> -->
         </div>
 
-        <div class="exhibition-details-container" id="exhibition-013">
-          <div class="exhibition-details">
-            <div class="exhibition-number">Exposición 013</div>
-            <h2 class="exhibition-title">Jardín Secreto</h2>
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb"
-              alt="Exhibition Image"
-              class="exhibition-image"
-            />
-            <div class="exhibition-info">
-              Carmen Lobo<br />01.12.2023 - 31.01.2024
+        <div class="exhibition-details-wrapper">
+            <!-- Exhibition details containers go here -->
+            <!-- Example for exhibition 013 -->
+            <div class="exhibition-details-container" id="exhibition-013">
+                <div class="exhibition-details">
+                    <div class="exhibition-number">Exposición 013</div>
+                    <h2 class="exhibition-title">Jardín Secreto</h2>
+                    <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb" alt="Exhibition Image" class="exhibition-image" />
+                    <div class="exhibition-info">Carmen Lobo<br>01.12.2023 - 31.01.2024</div>
+                </div>
             </div>
-          </div>
-        </div>
 
-        <div class="exhibition-details-container" id="exhibition-012">
-          <div class="exhibition-details">
-            <div class="exhibition-number">Exposición 012</div>
-            <h2 class="exhibition-title">Horizontes Lejanos</h2>
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb"
-              alt="Exhibition Image"
-              class="exhibition-image"
-            />
-            <div class="exhibition-info">
-              Sofía Marín<br />01.10.2023 - 30.11.2023
-            </div>
+            <div class="exhibition-details-container" id="exhibition-012">
+              <div class="exhibition-details">
+                  <div class="exhibition-number">Exposición 012</div>
+                  <h2 class="exhibition-title">Jardín Secreto</h2>
+                  <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb" alt="Exhibition Image" class="exhibition-image" />
+                  <div class="exhibition-info">Carmen Lobo<br>01.12.2023 - 31.01.2024</div>
+              </div>
           </div>
-        </div>
 
-        <div class="exhibition-details-container" id="exhibition-011">
-          <div class="exhibition-details">
-            <div class="exhibition-number">Exposición 011</div>
-            <h2 class="exhibition-title">Caleidoscopio Urbano</h2>
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb"
-              alt="Exhibition Image"
-              class="exhibition-image"
-            />
-            <div class="exhibition-info">
-              Raúl Navarro<br />01.08.2023 - 30.09.2023
+          <div class="exhibition-details-container" id="exhibition-011">
+            <div class="exhibition-details">
+                <div class="exhibition-number">Exposición 011</div>
+                <h2 class="exhibition-title">Jardín Secreto</h2>
+                <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb" alt="Exhibition Image" class="exhibition-image" />
+                <div class="exhibition-info">Carmen Lobo<br>01.12.2023 - 31.01.2024</div>
             </div>
-          </div>
         </div>
 
         <div class="exhibition-details-container" id="exhibition-010">
           <div class="exhibition-details">
-            <div class="exhibition-number">Exposición 010</div>
-            <h2 class="exhibition-title">Fragmentos del Tiempo</h2>
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb"
-              alt="Exhibition Image"
-              class="exhibition-image"
-            />
-            <div class="exhibition-info">
-              Mónica Serrano<br />01.06.2023 - 31.07.2023
-            </div>
+              <div class="exhibition-number">Exposición 012</div>
+              <h2 class="exhibition-title">Jardín Secreto</h2>
+              <img src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb" alt="Exhibition Image" class="exhibition-image" />
+              <div class="exhibition-info">Carmen Lobo<br>01.12.2023 - 31.01.2024</div>
           </div>
-        </div>
-
-        <div class="exhibition-details-container" id="exhibition-009">
-          <div class="exhibition-details">
-            <div class="exhibition-number">Exposición 009</div>
-            <h2 class="exhibition-title">Narrativas Visuales</h2>
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb"
-              alt="Exhibition Image"
-              class="exhibition-image"
-            />
-            <div class="exhibition-info">
-              Diego Torres<br />01.04.2023 - 31.05.2023
-            </div>
-          </div>
-        </div>
-
-        <div class="exhibition-details-container" id="exhibition-008">
-          <div class="exhibition-details">
-            <div class="exhibition-number">Exposición 008</div>
-            <h2 class="exhibition-title">El Despertar de la Forma</h2>
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb"
-              alt="Exhibition Image"
-              class="exhibition-image"
-            />
-            <div class="exhibition-info">
-              Laura Gutiérrez<br />01.02.2023 - 31.03.2023
-            </div>
-          </div>
-        </div>
-
-        <div class="exhibition-details-container" id="exhibition-007">
-          <div class="exhibition-details">
-            <div class="exhibition-number">Exposicion 007</div>
-            <h2 class="exhibition-title">SECUENCIA INICIAL</h2>
-            <img
-              src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb"
-              alt="Exhibition Image"
-              class="exhibition-image"
-            />
-            <div class="exhibition-info">
-              JOSÉ LUIS GARCIA<br />31.01.2024 - 31.05.2024
-            </div>
-          </div>
-        </div>
       </div>
-
-      <div class="exhibition-details-container" id="exhibition-006">
-        <div class="exhibition-details">
-          <div class="exhibition-number">Exposición 006</div>
-          <h2 class="exhibition-title">Título de la Exhibición 006</h2>
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb"
-            alt="Exhibition Image"
-            class="exhibition-image"
-          />
-          <div class="exhibition-info">
-            Nombre del Artista 026<br />01.01.2024 - 28.02.2024
-          </div>
+            <!-- Repeat for other exhibitions -->
         </div>
-      </div>
-
-      <div class="exhibition-details-container" id="exhibition-005">
-        <div class="exhibition-details">
-          <div class="exhibition-number">Exposición 005</div>
-          <h2 class="exhibition-title">Sombras y Siluetas</h2>
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb"
-            alt="Exhibition Image"
-            class="exhibition-image"
-          />
-          <div class="exhibition-info">
-            Carlos Hernández<br />01.10.2023 - 30.11.2023
-          </div>
-        </div>
-      </div>
-
-      <div class="exhibition-details-container" id="exhibition-004">
-        <div class="exhibition-details">
-          <div class="exhibition-number">Exposición 004</div>
-          <h2 class="exhibition-title">Luces de la Ciudad</h2>
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb"
-            alt="Exhibition Image"
-            class="exhibition-image"
-          />
-          <div class="exhibition-info">
-            Roberto Gómez<br />01.08.2023 - 30.09.2023
-          </div>
-        </div>
-      </div>
-
-      <div class="exhibition-details-container" id="exhibition-003">
-        <div class="exhibition-details">
-          <div class="exhibition-number">Exposición 003</div>
-          <h2 class="exhibition-title">Ecos del Pasado</h2>
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb"
-            alt="Exhibition Image"
-            class="exhibition-image"
-          />
-          <div class="exhibition-info">
-            Marta Sánchez<br />01.06.2023 - 31.07.2023
-          </div>
-        </div>
-      </div>
-
-      <div class="exhibition-details-container" id="exhibition-002">
-        <div class="exhibition-details">
-          <div class="exhibition-number">Exposición 002</div>
-          <h2 class="exhibition-title">Visiones Futuristas</h2>
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb"
-            alt="Exhibition Image"
-            class="exhibition-image"
-          />
-          <div class="exhibition-info">
-            Jorge Castillo<br />01.03.2023 - 30.04.2023
-          </div>
-        </div>
-      </div>
-
-      <div class="exhibition-details-container" id="exhibition-001">
-        <div class="exhibition-details">
-          <div class="exhibition-number">Exposición 001</div>
-          <h2 class="exhibition-title">Inicios Artísticos</h2>
-          <img
-            src="https://cdn.builder.io/api/v1/image/assets/TEMP/45c21e9496951ab6f73d3b346af52b46d6515a9468376e59cd0c2b0ce44b95cb"
-            alt="Exhibition Image"
-            class="exhibition-image"
-          />
-          <div class="exhibition-info">
-            Lucía Martínez<br />01.01.2023 - 28.02.2023
-          </div>
-        </div>
-      </div>
-      <!-- Repeat for exhibitions 026 to 001 with unique background colors and IDs -->
     </div>
 
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const exhibitionList = document.querySelector(".exhibition-list");
-        const exhibitions = document.querySelectorAll(
-          ".exhibition-details-container"
-        );
+        document.addEventListener("DOMContentLoaded", function() {
+            const swiper = new Swiper('.swiper', {
+                direction: 'vertical',
+                slidesPerView: 'auto',
+                freeMode: true,
+                mousewheel: true,
+                pagination: {
+                    el: '.swiper-pagination',
+                },
+            });
 
-        // Generate list items
-        exhibitions.forEach((exhibition) => {
-          const listItem = document.createElement("div");
-          listItem.textContent = exhibition.id.split("-")[1]; // Get number from ID
-          listItem.className = "exhibition-list-item";
-          listItem.addEventListener("click", function () {
-            exhibitions.forEach((ex) => ex.classList.remove("active")); // Hide all
-            exhibition.classList.add("active"); // Show clicked
+            const exhibitions = document.querySelectorAll(".exhibition-details-container");
+            exhibitions.forEach((exhibition, index) => {
+                const slide = document.createElement("div");
+                slide.className = "swiper-slide exhibition-list-item";
+                slide.textContent = `00${index + 001}`;
+                slide.addEventListener("click", function() {
+                    document.querySelectorAll('.exhibition-details-container').forEach((ex) => ex.classList.remove('active'));
+                    exhibition.classList.add('active');
+                });
+                swiper.appendSlide(slide);
+            });
 
-            // Update active state for list items
-            document
-              .querySelectorAll(".exhibition-list-item")
-              .forEach((item) => item.classList.remove("active"));
-            listItem.classList.add("active");
-          });
-
-          exhibitionList.appendChild(listItem);
+            // Activate the first exhibition by default
+            if (exhibitions.length > 0) exhibitions[0].classList.add('active');
+            if (swiper.slides.length > 0) swiper.slides[0].classList.add('active');
         });
-
-        // Activate the first exhibition by default
-        if (exhibitions.length > 0) exhibitions[0].classList.add("active");
-        if (exhibitionList.firstChild)
-          exhibitionList.firstChild.classList.add("active");
-      });
     </script>
-  </body>
+</body>
 </html>
